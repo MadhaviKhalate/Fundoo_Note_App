@@ -42,11 +42,11 @@ namespace FundooNoteApp.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult UserLogin(UserLoginModel userLogin)
+        public IActionResult UserLogin(UserLoginModel userLoginModel)
         {
             try
             {
-                var result = iuserBL.Login(userLogin);
+                var result = iuserBL.Login(userLoginModel);
                 if (result != null)
                 {
                     return Ok(new { success = true, message = "Login Successful", data = result });
