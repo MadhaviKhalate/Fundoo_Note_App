@@ -30,16 +30,28 @@ namespace CommonLayer.Model
         private void MessageQueue_ReceiveCompleted(object sender, ReceiveCompletedEventArgs e)
         {
             var msg = messageQueue.EndReceive(e.AsyncResult);
-            string Token = msg.Body.ToString();
-            string Subject = "Fundoonotes reset link";
-            string Body = Token;
+            string token = msg.Body.ToString();
+            string subject = "Fundoo Notes Reset Link";
+            string body = token;
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("madhavikhalate123@gmail.com");
+            mail.To.Add("madhavikhalate123@gmail.com");
+            mail.Subject = subject;
+            mail.IsBodyHtml = true;
+            string htmlBody;
+            htmlBody = "<body><p>Dear User,<br><br>" +
+                "Forgot your password?<br>" +
+                "We have sent you a link for resetting your password.<br></body>" + token;
+
+            mail.Body = htmlBody;
+
             var SMTP = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
                 Credentials = new NetworkCredential("madhavikhalate123@gmail.com", "ovhlontshvyrnmbd"),
                 EnableSsl = true,
             };
-            SMTP.Send("madhavikhalate123@gmail.com", "madhavikhalate123@gmail.com", Subject, Body);
+            SMTP.Send(mail);
             messageQueue.BeginReceive();
         }
     }
