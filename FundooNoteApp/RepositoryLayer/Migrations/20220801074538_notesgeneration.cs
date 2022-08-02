@@ -15,7 +15,7 @@ namespace RepositoryLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Reminder = table.Column<string>(nullable: true),
+                    Reminder = table.Column<DateTime>(nullable: true),
                     Color = table.Column<string>(nullable: true),
                     Image = table.Column<string>(nullable: true),
                     Archive = table.Column<bool>(nullable: false),
