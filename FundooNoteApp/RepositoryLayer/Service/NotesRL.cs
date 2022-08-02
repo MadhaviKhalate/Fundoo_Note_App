@@ -22,22 +22,22 @@ namespace RepositoryLayer.Service
             try
             {
                 NotesEntity notesEntity = new NotesEntity();
-                //var result = fundooContext.UserEntities.FirstOrDefault(e => e.UserId == userId);
-                if (result != null)
+                notesEntity.Title = notesModel.Title;
+                notesEntity.Description = notesModel.Description;
+                notesEntity.Reminder = notesModel.Reminder;
+                notesEntity.Color = notesModel.Color;
+                notesEntity.Image = notesModel.Image;
+                notesEntity.Created = DateTime.Now;
+                notesEntity.Updated = DateTime.Now;
+                notesEntity.Archive = notesModel.Archive;
+                notesEntity.Pin = notesModel.Pin;
+                notesEntity.Trash = notesModel.Trash;
+                notesEntity.UserId = userId;
+                //notesEntity.User = fundooContext.userEntities.Where(user => user.UserId == UserID).FirstOrDefault();
+                fundooContext.NotesEntities.Add(notesEntity);
+                int result = fundooContext.SaveChanges();
+                if (result != 0)
                 {
-                    notesEntity.Title = notesModel.Title;
-                    notesEntity.Description = notesModel.Description;
-                    notesEntity.Reminder = notesModel.Reminder;
-                    notesEntity.Color = notesModel.Color;
-                    notesEntity.Image = notesModel.Image;
-                    notesEntity.Archive = notesModel.Archive;
-                    notesEntity.Pin = notesModel.Pin;
-                    notesEntity.Trash = notesModel.Trash;
-                    notesEntity.Created = notesModel.Created;
-                    notesEntity.Updated = notesModel.Updated;
-                    notesEntity.UserId = userId;
-                    fundooContext.NotesEntities.Add(notesEntity);
-                    fundooContext.SaveChanges();
                     return notesEntity;
                 }
                 else
@@ -47,10 +47,8 @@ namespace RepositoryLayer.Service
             }
             catch (Exception)
             {
-
                 throw;
             }
-
         }
 
         public IEnumerable<NotesEntity> ReadNotes(long userId)
@@ -59,6 +57,57 @@ namespace RepositoryLayer.Service
             {
                 var result = this.fundooContext.NotesEntities.Where(x => x.UserId == userId);
                 return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool DeleteNotes(long userId, long noteId)
+        {
+            try
+            {
+
+                var result = fundooContext.NotesEntities.Where(x => x.UserId == userId && x.NoteID == noteId).FirstOrDefault();
+                if (result != null)
+                {
+                    fundooContext.NotesEntities.Remove(result);
+                    this.fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public NotesEntity UpdateNote(NotesModel noteModel, long NoteId, long userId)
+        {
+            try
+            {
+                var result = fundooContext.NotesEntities.Where(note => note.UserId == userId && note.NoteID == NoteId).FirstOrDefault();
+                if (result != null)
+                {
+                    result.Title = noteModel.Title;
+                    result.Description = noteModel.Description;
+                    result.Reminder = noteModel.Reminder;
+                    result.Updated = DateTime.Now;
+                    result.Color = noteModel.Color;
+                    result.Image = noteModel.Image;
+
+                    this.fundooContext.SaveChanges();
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception)
             {

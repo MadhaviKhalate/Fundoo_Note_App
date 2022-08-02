@@ -41,7 +41,7 @@ namespace FundooNoteApp.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("Read")]
         public IActionResult ReadNotes()
         {
@@ -64,5 +64,50 @@ namespace FundooNoteApp.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("DeleteNote")]
+        public IActionResult DeleteNotes(long NoteID)
+        {
+            try
+            {
+                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = iNotesBL.DeleteNotes(userID, NoteID);
+                if (result != false)
+                {
+                    return Ok(new { success = true, message = "Note Deleted." });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Cannot delete note." });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateNote")]
+        public IActionResult UpdateNote(NotesModel noteModel, long NoteID)
+        {
+            try
+            {
+                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = iNotesBL.UpdateNote(noteModel, NoteID, userID);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Note Updated Successfully.", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Cannot update note." });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }
