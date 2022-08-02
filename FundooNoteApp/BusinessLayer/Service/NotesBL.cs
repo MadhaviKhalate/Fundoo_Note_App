@@ -90,6 +90,28 @@ namespace BusinessLayer.Service
             }
         }
 
+        public bool Trash(long NoteID, long userId)
+        {
+            try
+            {
+                return iNotesRL.Trash(NoteID, userId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
+        public NotesEntity NoteColor(long NoteId, string color)
+        {
+            try
+            {
+                return iNotesRL.NoteColor(NoteId, color);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

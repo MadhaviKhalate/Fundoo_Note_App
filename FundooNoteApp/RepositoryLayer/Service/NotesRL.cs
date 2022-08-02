@@ -165,7 +165,55 @@ namespace RepositoryLayer.Service
             }
         }
 
-        
+        public bool Trash(long NoteID, long userId)
+        {
+            try
+            {
+                var result = fundooContext.NotesEntities.Where(x => x.UserId == userId && x.NoteID == NoteID).FirstOrDefault();
+
+                if (result.Trash == true)
+                {
+                    result.Trash = false;
+                    fundooContext.SaveChanges();
+                    return false;
+                }
+                else
+                {
+                    result.Trash = true;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public NotesEntity NoteColor(long NoteId, string color)
+        {
+            var result = fundooContext.NotesEntities.Where(r => r.NoteID == NoteId).FirstOrDefault();
+            if (result != null)
+            {
+                if (color != null)
+                {
+                    result.Color = color;
+                    fundooContext.NotesEntities.Update(result);
+                    fundooContext.SaveChanges();
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
     }
 }
 
