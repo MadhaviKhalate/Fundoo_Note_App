@@ -42,5 +42,16 @@ namespace BusinessLayer.Service
             }
         }
 
+        public IEnumerable<CollaboratorEntity> Get(long noteId)
+        {
+            try
+            {
+                return iCollaboratorRL.Get(noteId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

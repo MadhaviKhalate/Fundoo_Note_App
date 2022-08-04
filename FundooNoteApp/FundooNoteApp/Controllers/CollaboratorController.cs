@@ -64,5 +64,26 @@ namespace FundooNoteApp.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Read")]
+        public IActionResult Get(long noteId)
+        {
+            try
+            {
+                var result = iCollaboratorBL.Get(noteId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Get Data Successfully.", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Data Not Getting." });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }

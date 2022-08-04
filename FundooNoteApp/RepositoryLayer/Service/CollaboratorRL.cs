@@ -66,5 +66,25 @@ namespace RepositoryLayer.Service
             }
         }
 
+        public IEnumerable<CollaboratorEntity> Get(long noteId)
+        {
+            try
+            {
+                var result = fundooContext.CollaboratorEntities.Where(x => x.NoteID == noteId);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

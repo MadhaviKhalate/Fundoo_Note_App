@@ -10,6 +10,8 @@ namespace RepositoryLayer.Interface
     {
         public CollaboratorEntity Create(CollaboratorModel collaboratorModel, long userId);
         public bool Delete(long collaboratorID);
+        public IEnumerable<CollaboratorEntity> Get(long noteId);
+
 
     }
 }
