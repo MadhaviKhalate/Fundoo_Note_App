@@ -112,7 +112,7 @@ namespace FundooNoteApp.Controllers
 
         [HttpPut]
         [Route("Pin")]
-        public IActionResult pinToDashboard(long NoteID)
+        public IActionResult PinToDashboard(long NoteID)
         {
             try
             {
@@ -196,6 +196,29 @@ namespace FundooNoteApp.Controllers
                 }
                 else
                     return this.BadRequest(new { Success = false, message = " Color Add Unsuccessful" });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPut]
+        [Route("Image")]
+        public IActionResult AddImage(IFormFile image, long noteId)
+        {
+            try
+            {
+                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = iNotesBL.AddImage(image, noteId, userID);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Image Uploaded Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = true, Message = "Image Uploaded Unsuccessful", Data = result });
+                }
             }
             catch (Exception)
             {
