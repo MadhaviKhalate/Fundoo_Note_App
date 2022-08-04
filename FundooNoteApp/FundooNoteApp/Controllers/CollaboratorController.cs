@@ -41,5 +41,28 @@ namespace FundooNoteApp.Controllers
                 throw;
             }
         }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public IActionResult Delete(long collaboratorID)
+        {
+            try
+            {
+                var result = iCollaboratorBL.Delete(collaboratorID);
+                if (result != false)
+                {
+                    return Ok(new { success = true, message = "Deleted Successfully" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Delete Failed" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

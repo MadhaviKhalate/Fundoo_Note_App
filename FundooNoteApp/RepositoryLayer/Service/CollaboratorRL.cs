@@ -43,5 +43,28 @@ namespace RepositoryLayer.Service
             }
         }
 
+        public bool Delete(long collaboratorID)
+        {
+            try
+            {
+
+                var result = fundooContext.CollaboratorEntities.Where(x => x.CollaboratorID == collaboratorID).First();
+                if (result != null)
+                {
+                    fundooContext.CollaboratorEntities.Remove(result);
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

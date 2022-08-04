@@ -9,6 +9,6 @@ namespace BusinessLayer.Interface
     public interface ICollaboratorBL
     {
         public CollaboratorEntity Create(CollaboratorModel collaboratorModel, long userId);
-
+        public bool Delete(long collaboratorID);
     }
 }
