@@ -10,7 +10,8 @@ namespace RepositoryLayer.Interface
     {
         public LabelEntity Create(LabelModel labelModel, long userId);
         public LabelEntity UpdateLabel(LabelModel labelModel, long labelID);
-
+        public LabelEntity DeleteLabel(long labelID, long userId);
+        public IEnumerable<LabelEntity> GetLabels(long userId);
 
     }
 }

@@ -69,5 +69,47 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+
+        public LabelEntity DeleteLabel(long labelID, long userId)
+        {
+            try
+            {
+                var deleteLabel = fundooContext.LabelEntities.Where(r => r.LabelID == labelID).FirstOrDefault();
+                if (deleteLabel != null)
+                {
+                    fundooContext.LabelEntities.Remove(deleteLabel);
+                    fundooContext.SaveChanges();
+                    return deleteLabel;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<LabelEntity> GetLabels(long userId)
+        {
+            try
+            {
+                var result = fundooContext.LabelEntities.ToList().Where(x => x.UserId == userId);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
