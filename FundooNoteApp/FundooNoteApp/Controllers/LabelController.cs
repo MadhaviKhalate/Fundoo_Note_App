@@ -40,5 +40,28 @@ namespace FundooNoteApp.Controllers
                 throw;
             }
         }
+
+        [HttpPut]
+        [Route("Update")]
+        public IActionResult UpdateLabel(LabelModel labelModel, long labelID)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(r => r.Type == "userID").Value);
+                var result = iLabelBL.UpdateLabel(labelModel, labelID);
+                if (result != null)
+                {
+                    return Ok(new { Success = true, message = "Label Updated Successfully", data = result });
+                }
+                else
+                {
+                    return NotFound(new { Success = false, message = "Label Not Updated" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
